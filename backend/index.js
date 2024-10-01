@@ -1,36 +1,40 @@
 const express = require('express');
-const user = require('./module/user');
-const Product = require('./module/product');
-const Category = require('./module/category');
-const nodemailer = require('nodemailer')
 const app = express()
+const cors = require('cors')
+app.use(cors())
 app.use(express.json())
 require("dotenv").config();
 require("./conn/conn")
-require("./module/user")
+
+const user = require('./routes/User')
+// require("./module/user")
 
 app.get('/', (req, res) => res.send('Hello World!'))
 
+// User Api
+app.use("/api/v1",user);
+
+
 //User Create 
-app.post('/user',async (req,res) => {
-    try {
-        const User = await user.create(req.body);
-        res.status(200).json(User)
-    } catch (error) {
-        res.status(500).send(error.message)
-    }
-});
+// app.post('/user',async (req,res) => {
+//     try {
+//         const User = await user.create(req.body);
+//         res.status(200).json(User)
+//     } catch (error) {
+//         res.status(500).send(error.message)
+//     }
+// });
 
 // User Data
 
-app.get('/userData',async (req,res) => {
-    try {
-        const userdata = await user.find({});
-        res.status(200).json(userdata)
-    } catch (error) {
-        res.status(500).send(error.message)
-    }
-});
+// app.get('/userData',async (req,res) => {
+//     try {
+//         const userdata = await user.find({});
+//         res.status(200).json(userdata)
+//     } catch (error) {
+//         res.status(500).send(error.message)
+//     }
+// });
 
 // Add category
 app.post('/category',async (req,res) =>{
