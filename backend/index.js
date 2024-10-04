@@ -4,99 +4,82 @@ const cors = require('cors')
 app.use(cors())
 app.use(express.json())
 require("dotenv").config();
-require("./conn/conn")
+require("./conn/conn");
 
-const user = require('./routes/User')
+const user = require('./routes/User');
+const category = require('./routes/category');
 // require("./module/user")
 
-app.get('/', (req, res) => res.send('Hello World!'))
+// app.get('/', (req, res) => res.send('Hello World!'));
 
 // User Api
 app.use("/api/v1",user);
 
 
-//User Create 
-// app.post('/user',async (req,res) => {
-//     try {
-//         const User = await user.create(req.body);
-//         res.status(200).json(User)
-//     } catch (error) {
-//         res.status(500).send(error.message)
-//     }
-// });
-
-// User Data
-
-// app.get('/userData',async (req,res) => {
-//     try {
-//         const userdata = await user.find({});
-//         res.status(200).json(userdata)
-//     } catch (error) {
-//         res.status(500).send(error.message)
-//     }
-// });
 
 // Add category
-app.post('/category',async (req,res) =>{
-    try {
-        // const {name, category, colorcode, price, description} = req.body;
-        // console.log(req.body);
-        const category = await Category.create(req.body)
-        res.status(201).send(category)
-    } catch (error) {
-        res.status(500).send(error.message)
-    }
-})
+app.use("/api/v1",category);
+
+// app.post('/category',async (req,res) =>{
+//     try {
+//         // const {name, category, colorcode, price, description} = req.body;
+//         // console.log(req.body);
+//         const category = await Category.create(req.body)
+//         res.status(201).send(category)
+//     } catch (error) {
+//         res.status(500).send(error.message)
+//     }
+// })
 
 // Get All Category
-app.get('/allcategory',async (req,res) =>{
-    try {
-        const allcategory = await Category.find({})
-        res.status(200).send(allcategory)
-    } catch (error) {
-        res.status(500).send(error.message)
-    }
-})
+// app.get('/allcategory',async (req,res) =>{
+//     try {
+//         const allcategory = await Category.find({})
+//         res.status(200).send(allcategory)
+//     } catch (error) {
+//         res.status(500).send(error.message)
+//     }
+// })
 
 // Get Category by Id
-app.get('/categoryid',async (req,res) =>{
-    try {
-        const {id} = req.headers;
-        const categoryid = await Category.findById(id)
-        res.status(200).send(categoryid)
-    } catch (error) {
-        res.status(500).send(error.message)
-    }
-})
+// app.get('/categoryid',async (req,res) =>{
+//     try {
+//         const {id} = req.headers;
+//         const categoryid = await Category.findById(id)
+//         res.status(200).send(categoryid)
+//     } catch (error) {
+//         res.status(500).send(error.message)
+//     }
+// })
 
 // Update category
-app.put('/updatecategory',async (req,res) =>{
-    try {
-        const {cateid} = req.headers;
-        const updatecategory = await Category.findByIdAndUpdate(cateid,req.body,{ new: true });
-        console.log(updatecategory);
+// app.put('/updatecategory',async (req,res) =>{
+//     try {
+//         const {cateid} = req.headers;
+//         const updatecategory = await Category.findByIdAndUpdate(cateid,req.body,{ new: true });
+//         console.log(updatecategory);
         
-        res.status(200).send(updatecategory)
+//         res.status(200).send(updatecategory)
         
-    } catch (error) {
-        res.status(500).send(error.message)
-    }
-})
+//     } catch (error) {
+//         res.status(500).send(error.message)
+//     }
+// })
 
 // Delete Category
-app.delete('/deletecategory',async (req,res) =>{
-    try {
-        const  { id } = req.headers;
-        const deletecategory = await Category.findByIdAndDelete(id)
-        if (!deletecategory) {
-            return res.status(404).send("Category Not Found")
-        }
-        res.send("Category Deleted Successfully")
+// app.delete('/deletecategory',async (req,res) =>{
+//     try {
+//         const  { id } = req.headers;
+//         const deletecategory = await Category.findByIdAndDelete(id)
+//         if (!deletecategory) {
+//             return res.status(404).send("Category Not Found")
+//         }
+//         res.send("Category Deleted Successfully")
 
-    } catch (error) {
-        res.status(500).send(error.message)
-    }
-})
+//     } catch (error) {
+//         res.status(500).send(error.message)
+//     }
+// })
 
 // Add Product
 

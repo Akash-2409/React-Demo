@@ -3,8 +3,8 @@ const { JsonWebTokenError } = require("jsonwebtoken");
 const user = require("../module/user")
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken");
-const { authenticateToken } = require("./userAuth");
-// const {authenticatetoken} = require("./Userauth")
+// const { authenticateToken } = require("./userAuth");
+const {authenticateToken} = require('./Userauth');
 
 // Sign Up For Admin
 router.post("/signUp", async (req, res) => {
@@ -56,10 +56,10 @@ router.post("/login",async (req,res) => {
                     {role_as:existingUser.role_as}
                 ];
                 const token = jwt.sign({authClain},"trimurti2008",{expiresIn:"30d"});
-                res.status(200).json({id:existingUser.id, role_as:existingUser.role_as, token:token});
+                return res.status(200).json({id:existingUser.id, role_as:existingUser.role_as, token:token});
             }
             else{
-                res.status(500).json({message:err.message})
+                return res.status(500).json({message: err})
             }
         }) 
     } 
@@ -70,13 +70,14 @@ router.post("/login",async (req,res) => {
 });
 
 // Get Admin Information
-router.get("/admin-info",authenticateToken, async (req,res)=>{
+router.get("/admin-info",authenticateToken, async (req,res) => 
+{
     try {
         const {id} = req.headers;
         const data = await user.findById(id);
         return res.status(200).json(data)
     } catch (error) {
-        res.status(400).json({message:error.message})
+       res.status(400).json({message:error.message})
     }
 });
 
