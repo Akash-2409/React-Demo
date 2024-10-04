@@ -69,7 +69,7 @@ router.delete("/deleteCategory",authenticateToken,async (req,res)=>{
     try {
         const {id} = req.headers;
         const cate = await Category.findByIdAndDelete(id);
-        if (authenticateToken == null) {
+        if (token == null) {
             return res.status(403).json("You Are Not Admin");
         }
         res.status(200).json("Category Deleted Successfully....")
