@@ -65,10 +65,11 @@ router.put("/updateCategory",authenticateToken,async (req,res)=>{
     }
 });
 
+// Delete Category
 router.delete("/deleteCategory",authenticateToken,async (req,res)=>{
     try {
         const {id} = req.headers;
-        const cate = await Category.findByIdAndDelete(id);
+        await Category.findByIdAndDelete(id);
         if (token == null) {
             return res.status(403).json("You Are Not Admin");
         }

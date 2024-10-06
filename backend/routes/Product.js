@@ -23,4 +23,31 @@ router.get("/products",async (req,res)=>{
         res.status(500).json({message:error.message})
     }
 });
+
+// Update Product
+router.put("/updateProduct",authenticateToken,async (req,res)=>{
+    try {
+        const {productid} = req.headers;
+        await Product.findByIdAndUpdate(productid,{
+            name:req.body.name,
+            categoryID:req.body.categoryID,
+            price:req.body.price,
+            description:req.body.description
+        });
+        res.status(200).json({message:"Product Updated Successfully"});
+    } catch (error) {
+        res.status(500).json({message:error.message})
+    }
+});
+
+// Delete PRoduct
+router.delete("/deleteProduct",authenticateToken,async (req,res)=>{
+    try {
+        const {productid} = req.headers;
+        await Product.findByIdAndDelete(productid)
+        res.status(200).json("Product Deleted Successfully....")
+    } catch (error) {
+        res.status(500).json({message:error.message})
+    }
+});
 module.exports = router;
