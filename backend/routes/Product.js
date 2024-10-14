@@ -40,6 +40,27 @@ router.put("/updateProduct",authenticateToken,async (req,res)=>{
     }
 });
 
+// Display Product Using CategoryID
+router.get("/getProductbyCateID",async (req,res)=>{
+    try {
+        const { categoryID } = req.body;
+        console.log(categoryID);
+        
+        if (!categoryID) {
+            return res.status(400).json({ message: "categoryID is required" });
+        }
+        
+        const products = await Product.find({categoryID});
+
+        if (products.length === 0) {
+            return res.status(400).json({message: "Product Not Found on This Category"})
+        }
+        return res.status(200).json(products)
+    } catch (error) {
+        res.status(500).json({message:error.message})
+    }
+});
+
 // Delete PRoduct
 router.delete("/deleteProduct",authenticateToken,async (req,res)=>{
     try {
