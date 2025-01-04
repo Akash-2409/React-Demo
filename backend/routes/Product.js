@@ -24,6 +24,17 @@ router.get("/products",async (req,res)=>{
     }
 });
 
+// Display product by ID
+router.get("/productsid",async (req,res)=>{
+    try {
+        const { id } = req.body;
+        const products = await Product.findById(id);
+        res.status(200).json(products);
+    } catch (error) {
+        res.status(500).json({message:error.message})
+    }
+});
+
 // Update Product
 router.put("/updateProduct",authenticateToken,async (req,res)=>{
     try {
